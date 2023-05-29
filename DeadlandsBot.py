@@ -3,12 +3,10 @@ from discord.ext import commands
 import ExplodingDice, Cards, Chips
 import dotenv
 
-TOKEN = dotenv.get_key("TOKEN")
+TOKEN = dotenv.get_key(".env", "TOKEN")
 
 Intents = discord.Intents.default()
 Intents.message_content = True
-
-json2save = True
 
 bot = discord.ext.commands.Bot(command_prefix="!", intents=Intents)
 bot.help_command = commands.MinimalHelpCommand()
@@ -35,4 +33,4 @@ try:
 except KeyboardInterrupt:
     cog1 = bot.get_cog("Chips")
     cog1.save()
-    close(bot)
+    asyncio.run(close(bot))

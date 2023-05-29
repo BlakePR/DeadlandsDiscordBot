@@ -72,8 +72,9 @@ class Chips(commands.Cog):
     def dict2str(self, chipDict):
         msg = ""
         for color in chipDict.keys():
-            msg += chipDict.get(color, 0) + " " + color + ","
+            msg += " " + str(chipDict.get(color, 0)) + " " + color + ","
         msg = msg[:-1]
+        return msg
 
     @commands.command(name="getChips", brief="Get 3 random chips.")
     async def get_chips(self, ctx):
@@ -129,7 +130,7 @@ class Chips(commands.Cog):
     @commands.command(
         name="returnChips",
         brief="args: num1 color1, opt: num2 color2, up to 4, return chips to pot.",
-        aliases=["returnchips", "useChips", "use"]
+        aliases=["returnchips", "useChips", "use"],
     )
     async def return_chips(
         self,
@@ -190,7 +191,7 @@ class Chips(commands.Cog):
     async def show_player_chips(self, ctx):
         msg = (
             ctx.author.name
-            + "'s chips: "
+            + "'s chips:"
             + self.dict2str(self.playerChips.get(ctx.author.name, {}))
             + "."
         )
@@ -206,6 +207,7 @@ class Chips(commands.Cog):
                 + self.dict2str(self.playerChips.get(player, {}))
                 + ".\n"
             )
+        await ctx.send(msg)
 
     @commands.command(brief="save chips to file.")
     async def saveChips(self, ctx):

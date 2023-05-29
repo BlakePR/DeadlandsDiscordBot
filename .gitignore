@@ -2,3 +2,4 @@ chips.json
 players.json
 .env
 __pycache__
+.vscode
