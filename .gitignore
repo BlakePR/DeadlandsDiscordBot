@@ -1,2 +1,4 @@
-*.json
+chips.json
+players.json
 .env
+__pycache__
