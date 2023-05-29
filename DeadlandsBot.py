@@ -1,10 +1,9 @@
-import asyncio, json, discord, random, dotenv
+import asyncio, discord, dotenv
 from discord.ext import commands
 import ExplodingDice, Cards, Chips
 import dotenv
 
 TOKEN = dotenv.get_key("TOKEN")
-# TOKEN = "MTExMTQ1MjIxMjU0NDE1MTYxNQ.GH66td.5xEZan06MrrvDkRxzSi8fesdGsJuDiXHKS-mD4"
 
 Intents = discord.Intents.default()
 Intents.message_content = True
