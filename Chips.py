@@ -85,6 +85,7 @@ class Chips(commands.Cog):
         msg = ctx.author.name + " has been given " + self.list2str(givenChips) + "."
         await ctx.send(msg)
 
+    # fix message to actually return
     @commands.command(
         name="getColor",
         brief="args: color, opt num, get num (def 1) chip of that color.",
