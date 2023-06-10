@@ -76,7 +76,9 @@ class Chips(commands.Cog):
         msg = msg[:-1]
         return msg
 
-    @commands.command(name="getChips", brief="Get 3 random chips.")
+    @commands.command(
+        name="getChips", brief="Get 3 random chips.", help="Get 3 random chips."
+    )
     async def get_chips(self, ctx):
         givenChips = self.pick3()
         for chip in givenChips:
