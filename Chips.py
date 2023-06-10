@@ -94,7 +94,7 @@ class Chips(commands.Cog):
         for i in range(int(num)):
             self.remove(color.lower())
             self.addToPlayer(ctx.author.name, color.lower())
-        msg = ctx.author.name + " has been given " + num + color + " chip"
+        msg = ctx.author.name + " has been given " + str(num) + color + " chip"
         if num != 1:
             msg += "s"
         msg += "."
