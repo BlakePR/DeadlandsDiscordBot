@@ -257,7 +257,7 @@ class DeckManager(commands.Cog):
 
     @commands.command(
         name="useDownTo",
-        breif="Cause all cards down to a value (from any player's hand) to be used",
+        breif="usage: !useDownTo <val>, Cause all cards down to a value (from any player's hand) to be used",
     )
     async def useThrough(self, ctx, value):
         self.deck.useDownTo(ctx.author.name, int(value))
