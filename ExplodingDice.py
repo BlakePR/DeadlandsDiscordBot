@@ -28,13 +28,19 @@ class ExplodingDice(commands.Cog):
     async def roll(self, ctx, idj):
         numDice, numSides = idj.split("d")
         val, vals = self.rollE(int(numDice), int(numSides))
-        msg = ctx.author.name + " rolled " + str(val) + ", " + vals + "."
-        if (
-            (vals.count(1) > len(vals) / 2 and len(vals) > 2)
-            or (vals.count(1) == 2 and len(vals) == 2)
-            or (vals.count(1) == 1 and len(vals) == 1)
-        ):
-            msg += "/n" + ctx.author.name + " went bust!"
+        msg = ctx.author.name + " rolled " + str(val) + ", " + str(vals) + "."
+
+        # count = vals.count(1)
+        # isBust = False
+        # if numDice == 1 and count == 1:
+        #    isBust = True
+        # if numDice == 2 and count == 2:
+        #    isBust = True
+        # if numDice > 2 and count > numDice / 2:
+        #    isBust = True
+        # if isBust:
+        #    msg += "\n" + ctx.author.name + " went bust!"
+
         await ctx.send(msg)
 
     @commands.command(
