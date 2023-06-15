@@ -199,25 +199,25 @@ class DeckManager(commands.Cog):
         if num < 1:
             await ctx.send("Invalid number of cards")
             return
-        cards = self.deck.getCards(ctx.author.name, num)
-        bj = self.deck.blackJokerHandler(ctx.author.name)
+        cards = self.deck.getCards(ctx.author.global_name, num)
+        bj = self.deck.blackJokerHandler(ctx.author.global_name)
         if bj:
             msg += "Got a black Joker, lost cheated card, remember to shuffle at end of round\n"
-        msg += ctx.author.name + " got: "
+        msg += ctx.author.global_name + " got: "
         for card in cards:
             msg += str(card) + " "
         await ctx.send(msg)
 
     @commands.command(name="hand", brief="Prints your hand")
     async def hand(self, ctx):
-        msg = self.deck.stringPlayerHand(ctx.author.name)
-        if self.deck.hasCheated(ctx.author.name):
-            msg += "\nCheated card: " + str(self.deck.cheated[ctx.author.name])
+        msg = self.deck.stringPlayerHand(ctx.author.global_name)
+        if self.deck.hasCheated(ctx.author.global_name):
+            msg += "\nCheated card: " + str(self.deck.cheated[ctx.author.global_name])
         await ctx.send(msg)
 
     @commands.command(name="useCard", brief="Use a card from your hand")
     async def useCard(self, ctx, value):
-        if not self.deck.useCard(ctx.author.name, int(value)):
+        if not self.deck.useCard(ctx.author.global_name, int(value)):
             await ctx.send("Invalid card")
             return
         await ctx.send("Used card")
@@ -226,24 +226,24 @@ class DeckManager(commands.Cog):
         name="cheatCard", brief="Cheat a card from your hand", aliases=["cheat"]
     )
     async def cheatCard(self, ctx, value):
-        if self.deck.hasCheated(ctx.author.name):
+        if self.deck.hasCheated(ctx.author.global_name):
             await ctx.send("You have already cheated a card")
             return
-        if not self.deck.cheatCard(ctx.author.name, int(value)):
+        if not self.deck.cheatCard(ctx.author.global_name, int(value)):
             await ctx.send("Invalid card")
             return
         await ctx.send("Cheated card")
 
     @commands.command(name="useCheated", brief="Use the card you cheated")
     async def useCheated(self, ctx):
-        if not self.deck.useCheatedCard(ctx.author.name):
+        if not self.deck.useCheatedCard(ctx.author.global_name):
             await ctx.send("You have not cheated a card")
             return
         await ctx.send("Used cheated card")
 
     @commands.command(name="emptyHand", brief="Discard your hand")
     async def emptyHand(self, ctx):
-        self.deck.flushPlayerHand(ctx.author.name)
+        self.deck.flushPlayerHand(ctx.author.global_name)
         await ctx.send("Emptied hand")
 
     @commands.command(name="emptyAllHands", brief="Discard all hands")
@@ -258,9 +258,10 @@ class DeckManager(commands.Cog):
     @commands.command(
         name="useDownTo",
         breif="usage: !useDownTo <val>, Cause all cards down to a value (from any player's hand) to be used",
+        aliases=["useThrough"],
     )
     async def useThrough(self, ctx, value):
-        self.deck.useDownTo(ctx.author.name, int(value))
+        self.deck.useCardsDownTo(ctx.author.global_name, int(value))
         await ctx.send("Used down to " + value)
 
 

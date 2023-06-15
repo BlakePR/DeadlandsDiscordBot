@@ -83,11 +83,15 @@ class Chips(commands.Cog):
         givenChips = self.pick3()
         for chip in givenChips:
             self.remove(chip)
-            self.addToPlayer(ctx.author.name, chip)
-        msg = ctx.author.name + " has been given " + self.list2str(givenChips) + "."
+            self.addToPlayer(ctx.author.global_name, chip)
+        msg = (
+            ctx.author.global_name
+            + " has been given "
+            + self.list2str(givenChips)
+            + "."
+        )
         await ctx.send(msg)
 
-    # fix message to actually return
     @commands.command(
         name="getColor",
         brief="args: color, opt num, get num (def 1) chip of that color.",
@@ -95,8 +99,15 @@ class Chips(commands.Cog):
     async def get_color(self, ctx, color, num=1):
         for i in range(int(num)):
             self.remove(color.lower())
-            self.addToPlayer(ctx.author.name, color.lower())
-        msg = ctx.author.name + " has been given " + str(num) + color + " chip"
+            self.addToPlayer(ctx.author.global_name, color.lower())
+        msg = (
+            ctx.author.global_name
+            + " has been given "
+            + str(num)
+            + " "
+            + color
+            + " chip"
+        )
         if num != 1:
             msg += "s"
         msg += "."
@@ -107,7 +118,7 @@ class Chips(commands.Cog):
         brief="get legendary chip. can't be used with normal command, won't be added back to pot",
     )
     async def get_legendary(self, ctx):
-        self.addToPlayer(ctx.author.name, "Legendary Black")
+        self.addToPlayer(ctx.author.global_name, "Legendary Black")
         msg = "Legendary black chip given."
         await ctx.send(msg)
 
@@ -126,8 +137,10 @@ class Chips(commands.Cog):
     async def get_random(self, ctx):
         givenChip = random.choice(self.make_list())
         self.remove(givenChip)
-        self.addToPlayer(ctx.author.name, givenChip)
-        msg = ctx.author.name.title() + " has been given a " + givenChip + " chip."
+        self.addToPlayer(ctx.author.global_name, givenChip)
+        msg = (
+            ctx.author.global_name.title() + " has been given a " + givenChip + " chip."
+        )
         await ctx.send(msg)
 
     @commands.command(
@@ -151,27 +164,29 @@ class Chips(commands.Cog):
         isValid = True
         for i in range(num1):
             self.add(color1.lower())
-            isValid = isValid and self.removeFromPlayer(ctx.author.name, color1.lower())
+            isValid = isValid and self.removeFromPlayer(
+                ctx.author.global_name, color1.lower()
+            )
         if num2:
             num2 = int(num2)
             for i in range(num2):
                 self.add(color2.lower())
                 isValid = isValid and self.removeFromPlayer(
-                    ctx.author.name, color2.lower()
+                    ctx.author.global_name, color2.lower()
                 )
         if num3:
             num3 = int(num3)
             for i in range(num3):
                 self.add(color3.lower())
                 isValid = isValid and self.removeFromPlayer(
-                    ctx.author.name, color3.lower()
+                    ctx.author.global_name, color3.lower()
                 )
         if num4:
             num4 = int(num4)
             for i in range(num4):
                 self.add(color4.lower())
                 isValid = isValid and self.removeFromPlayer(
-                    ctx.author.name, color4.lower()
+                    ctx.author.global_name, color4.lower()
                 )
         if isValid:
             msg = "Chips returned."
@@ -190,12 +205,12 @@ class Chips(commands.Cog):
         msg = "Current pot: " + self.list2str(self.make_list()) + "."
         await ctx.send(msg)
 
-    @commands.command(name="showMine", brief="Show your chips.")
+    @commands.command(name="showMine", brief="Show your chips.", aliases=["showPot"])
     async def show_player_chips(self, ctx):
         msg = (
-            ctx.author.name
+            ctx.author.global_name
             + "'s chips:"
-            + self.dict2str(self.playerChips.get(ctx.author.name, {}))
+            + self.dict2str(self.playerChips.get(ctx.author.global_name, {}))
             + "."
         )
         await ctx.send(msg)
