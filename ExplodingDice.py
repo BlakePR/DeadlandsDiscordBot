@@ -1,4 +1,3 @@
-import discord
 import random
 from discord.ext import commands
 
@@ -27,19 +26,21 @@ class ExplodingDice(commands.Cog):
     )
     async def roll(self, ctx, idj):
         numDice, numSides = idj.split("d")
-        val, vals = self.rollE(int(numDice), int(numSides))
-        msg = ctx.author.name + " rolled " + str(val) + ", " + str(vals) + "."
+        numDice = int(numDice)
+        numSides = int(numSides)
+        val, vals = self.rollE(numDice, numSides)
+        msg = ctx.author.global_name + " rolled " + str(val) + ", " + str(vals) + "."
 
-        # count = vals.count(1)
-        # isBust = False
-        # if numDice == 1 and count == 1:
-        #    isBust = True
-        # if numDice == 2 and count == 2:
-        #    isBust = True
-        # if numDice > 2 and count > numDice / 2:
-        #    isBust = True
-        # if isBust:
-        #    msg += "\n" + ctx.author.name + " went bust!"
+        count = vals.count(1)
+        isBust = False
+        if numDice == 1 and count == 1:
+            isBust = True
+        elif numDice == 2 and count == 2:
+            isBust = True
+        elif numDice > 2 and count > (numDice / 2):
+            isBust = True
+        if isBust:
+            msg += "\n" + ctx.author.global_name + " went bust!"
 
         await ctx.send(msg)
 
@@ -49,7 +50,7 @@ class ExplodingDice(commands.Cog):
     async def rollSum(self, ctx, idj):
         numDice, numSides = idj.split("d")
         val = self.rollE(int(numDice), int(numSides), True)
-        msg = ctx.author.name + " rolled " + str(val) + "."
+        msg = ctx.author.global_name + " rolled " + str(val) + "."
         await ctx.send(msg)
 
 
