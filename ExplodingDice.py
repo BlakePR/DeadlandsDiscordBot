@@ -21,6 +21,40 @@ class ExplodingDice(commands.Cog):
         else:
             return max(rolls), rolls
 
+    def locationFromNum(self, num) -> str:
+        loc = ""
+        if num < 5:
+            loc = "Leg"
+        elif num < 10:
+            loc = "Lower Guts"
+        elif num == 10:
+            loc = "Gizzards"
+        elif num < 15:
+            loc = "Arm"
+        elif num < 20:
+            loc = "Upper Guts"
+        else:
+            loc = "Noggin"
+        if loc == "Leg" or loc == "Arm":
+            if num % 2 == 0:
+                loc = "Right " + loc
+            elif num % 2 == 1:
+                loc = "Left " + loc
+        return loc
+
+    def rollLocation(self, raises):
+        roll = random.randint(1, 20)
+        msg = "Location: " + str(roll) + " " + self.locationFromNum(roll)
+        if raises > 0:
+            locs = set()
+            msg += "\nCan be moved to:"
+            for n in range(roll - raises, roll + raises + 1):
+                if n != roll:
+                    locs.add(self.locationFromNum(n))
+            for l in locs:
+                msg += "\n" + l
+        return msg
+
     @commands.command(
         brief="Rolls exploding dice and take the highest. Format: !roll <numDice>d<numSides>"
     )
@@ -51,6 +85,15 @@ class ExplodingDice(commands.Cog):
         numDice, numSides = idj.split("d")
         val = self.rollE(int(numDice), int(numSides), True)
         msg = ctx.author.global_name + " rolled " + str(val) + "."
+        await ctx.send(msg)
+
+    @commands.command(
+        "rollHitLocation",
+        brief="Opt: num raises. Rolls a hit location.",
+        aliases=["hitLocation"],
+    )
+    async def rollHitLocation(self, ctx, raises=0):
+        msg = self.rollLocation(int(raises))
         await ctx.send(msg)
 
 
