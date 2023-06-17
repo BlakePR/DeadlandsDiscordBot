@@ -126,7 +126,7 @@ class Chips(commands.Cog):
         name="useLegendary", brief="use legendary chip, removes from player chips."
     )
     async def use_legendary(self, ctx):
-        wasUsed = self.removeFromPlayer(ctx, "Legendary Black")
+        wasUsed = self.removeFromPlayer(ctx.author.global_name, "Legendary Black")
         if wasUsed:
             msg = "Legendary black chip used."
         else:
@@ -252,6 +252,17 @@ class Chips(commands.Cog):
             self.addToPlayer(ctx.author.global_name, chips)
             self.removeFromPlayer(name, chips)
         msg = "Chips stolen."
+        await ctx.send(msg)
+
+    @commands.command(name="deleteEmptyPlayers", brief="delete players with no chips")
+    async def delete_empty_players(self, ctx):
+        for player in self.playerChips.keys():
+            count = 0
+            for color in self.playerChips[player]:
+                count += self.playerChips[player][color]
+            if count == 0:
+                del self.playerChips[player]
+        msg = "Empty players deleted."
         await ctx.send(msg)
 
 
