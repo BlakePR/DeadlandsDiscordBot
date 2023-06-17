@@ -262,7 +262,7 @@ class DeckManager(commands.Cog):
         aliases=["useThrough"],
     )
     async def useDownTo(self, ctx, value):
-        self.deck.useCardsDownTo(ctx.author.global_name, int(value))
+        self.deck.useCardsDownTo(int(value))
         await ctx.send("Used down to " + value)
 
 
