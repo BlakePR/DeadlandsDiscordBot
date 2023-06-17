@@ -215,7 +215,9 @@ class Chips(commands.Cog):
         )
         await ctx.send(msg)
 
-    @commands.command(name="showAllPlayerChips", brief="Show everyone's chips.")
+    @commands.command(
+        name="showAllPlayerChips", brief="Show everyone's chips.", aliases=["showAll"]
+    )
     async def show_all_player_chips(self, ctx):
         msg = ""
         for player in self.playerChips.keys():
@@ -238,6 +240,18 @@ class Chips(commands.Cog):
         self.chips = defaultChips
         self.playerChips = {}
         msg = "Chips reset."
+        await ctx.send(msg)
+
+    # make a command to steal all chips from another player
+    @commands.command(
+        name="StealChips",
+        brief="args: <name>, Steal chips from another player\nONLY FOR DISCORD USERNAME CHANGE",
+    )
+    async def steal_chips(self, ctx, name):
+        for chips in self.playerChips[name]:
+            self.addToPlayer(ctx.author.global_name, chips)
+            self.removeFromPlayer(name, chips)
+        msg = "Chips stolen."
         await ctx.send(msg)
 
 
