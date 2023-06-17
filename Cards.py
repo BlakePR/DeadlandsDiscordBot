@@ -185,7 +185,7 @@ class DeckManager(commands.Cog):
         else:
             self.deck.shuffle()
         msg = "Shuffled"
-        if discord:
+        if discard:
             msg += " including discard pile in"
         await ctx.send(msg)
 
@@ -255,6 +255,7 @@ class DeckManager(commands.Cog):
     async def getOrder(self, ctx):
         await ctx.send(self.deck.stringOrderPlayers())
 
+    # debug this
     @commands.command(
         name="useDownTo",
         breif="usage: !useDownTo <val>, Cause all cards down to a value (from any player's hand) to be used",
