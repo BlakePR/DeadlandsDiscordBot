@@ -260,7 +260,7 @@ class DeckManager(commands.Cog):
         breif="usage: !useDownTo <val>, Cause all cards down to a value (from any player's hand) to be used",
         aliases=["useThrough"],
     )
-    async def useThrough(self, ctx, value):
+    async def useDownTo(self, ctx, value):
         self.deck.useCardsDownTo(ctx.author.global_name, int(value))
         await ctx.send("Used down to " + value)
 
