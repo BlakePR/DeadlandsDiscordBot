@@ -52,7 +52,8 @@ class ExplodingDice(commands.Cog):
                 if n != roll:
                     locs.add(self.locationFromNum(n))
             for l in locs:
-                msg += "\n" + l
+                if l != self.locationFromNum(roll):
+                    msg += "\n" + l
         return msg
 
     @commands.command(
