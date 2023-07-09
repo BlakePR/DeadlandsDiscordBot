@@ -42,8 +42,12 @@ class ExplodingDice(commands.Cog):
                 loc = "Left " + loc
         return loc
 
-    def rollLocation(self, raises):
+    def rollLocation(self, raises, isBrawl=False):
         roll = random.randint(1, 20)
+        if isBrawl:
+            roll += 4
+            if roll > 20:
+                roll = 20
         msg = "Location: " + str(roll) + " " + self.locationFromNum(roll)
         if raises > 0:
             locs = set()
@@ -90,11 +94,16 @@ class ExplodingDice(commands.Cog):
 
     @commands.command(
         "rollHitLocation",
-        brief="Opt: num raises. Rolls a hit location.",
+        brief="Opt: num raises, brawl. Rolls a hit location.",
+        help=" num raises for where you can move it, any other argument after (so requires a raises num, even if zero) for a plus 4 for brawling.",
         aliases=["hitLocation"],
     )
-    async def rollHitLocation(self, ctx, raises=0):
-        msg = self.rollLocation(int(raises))
+    async def rollHitLocation(self, ctx, raises=0, isBrawling=""):
+        if isBrawling == "":
+            brawl = False
+        else:
+            brawl = True
+        msg = self.rollLocation(int(raises), brawl)
         await ctx.send(msg)
 
 
