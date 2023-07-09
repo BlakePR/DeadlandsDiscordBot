@@ -199,7 +199,10 @@ class DeckManager(commands.Cog):
         if num < 1:
             await ctx.send("Invalid number of cards")
             return
-        cards = self.deck.getCards(ctx.author.global_name, num)
+        try:
+            cards = self.deck.getCards(ctx.author.global_name, num)
+        except IndexError:
+            msg = "Warning, there aren't enough cards in the deck, you'll need to shuffle, then get the rest of your cards \n"
         bj = self.deck.blackJokerHandler(ctx.author.global_name)
         if bj:
             msg += "Got a black Joker, lost cheated card, remember to shuffle at end of round\n"
@@ -264,6 +267,25 @@ class DeckManager(commands.Cog):
     async def useDownTo(self, ctx, value):
         self.deck.useCardsDownTo(int(value))
         await ctx.send("Used down to " + value)
+
+    @commands.command(
+        name="hasCheated",
+        breif="show players that have cheated card currently",
+        help="show players that have cheated card currently",
+    )
+    async def hasCheated(self, ctx):
+        msg = ""
+        for name in self.deck.cheated.keys():
+            msg += name + ", "
+        msg = msg[:-2]
+        msg += " have cheated cards."
+        await ctx.send(msg)
+
+    @commands.command(name="deckLength")
+    async def deckLength(self, ctx):
+        msg = str(len(self.deck.inDeck))
+        msg = "Deck has " + msg + " cards."
+        await ctx.send(msg)
 
 
 async def setup(bot):

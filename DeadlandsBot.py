@@ -1,7 +1,6 @@
 import asyncio, discord, dotenv
 from discord.ext import commands
 import ExplodingDice, Cards, Chips
-import dotenv
 
 TOKEN = dotenv.get_key(".env", "TOKEN")
 
